@@ -24,10 +24,10 @@ export default function Navbar() {
           <Link href="/products" className="text-sm font-medium hover:underline underline-offset-4">
             Products
           </Link>
-          <Link href="#testimonials" className="text-sm font-medium hover:underline underline-offset-4">
+          <Link href="/#testimonials" className="text-sm font-medium hover:underline underline-offset-4">
             Testimonials
           </Link>
-          <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4">
+          <Link href="/#about" className="text-sm font-medium hover:underline underline-offset-4">
             About
           </Link>
         </nav>
