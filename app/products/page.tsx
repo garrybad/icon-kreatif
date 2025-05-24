@@ -6,77 +6,80 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import { products } from "@/public/data/products";
 
 export default function ProductsPage() {
+  let dataProducts = products;
+
   // Sample product data
-  const products = [
-    {
-      id: 1,
-      name: "Business Cards",
-      category: "Stationery",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$25",
-    },
-    {
-      id: 2,
-      name: "Banners & Posters",
-      category: "Large Format",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$45",
-    },
-    { id: 3, name: "Brochures", category: "Marketing", image: "/placeholder.svg?height=300&width=400", price: "$35" },
-    {
-      id: 4,
-      name: "Custom T-Shirts",
-      category: "Apparel",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$20",
-    },
-    {
-      id: 5,
-      name: "Stickers & Labels",
-      category: "Promotional",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$15",
-    },
-    {
-      id: 6,
-      name: "Promotional Items",
-      category: "Promotional",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$30",
-    },
-    { id: 7, name: "Flyers", category: "Marketing", image: "/placeholder.svg?height=300&width=400", price: "$20" },
-    { id: 8, name: "Calendars", category: "Stationery", image: "/placeholder.svg?height=300&width=400", price: "$18" },
-    {
-      id: 9,
-      name: "Greeting Cards",
-      category: "Stationery",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$12",
-    },
-    {
-      id: 10,
-      name: "Vinyl Banners",
-      category: "Large Format",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$60",
-    },
-    {
-      id: 11,
-      name: "Custom Mugs",
-      category: "Promotional",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$15",
-    },
-    {
-      id: 12,
-      name: "Canvas Prints",
-      category: "Large Format",
-      image: "/placeholder.svg?height=300&width=400",
-      price: "$75",
-    },
-  ]
+  // const products = [
+  //   {
+  //     id: 1,
+  //     name: "Business Cards",
+  //     category: "Stationery",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$25",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Banners & Posters",
+  //     category: "Large Format",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$45",
+  //   },
+  //   { id: 3, name: "Brochures", category: "Marketing", image: "/placeholder.svg?height=300&width=400", price: "$35" },
+  //   {
+  //     id: 4,
+  //     name: "Custom T-Shirts",
+  //     category: "Apparel",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$20",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Stickers & Labels",
+  //     category: "Promotional",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$15",
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Promotional Items",
+  //     category: "Promotional",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$30",
+  //   },
+  //   { id: 7, name: "Flyers", category: "Marketing", image: "/placeholder.svg?height=300&width=400", price: "$20" },
+  //   { id: 8, name: "Calendars", category: "Stationery", image: "/placeholder.svg?height=300&width=400", price: "$18" },
+  //   {
+  //     id: 9,
+  //     name: "Greeting Cards",
+  //     category: "Stationery",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$12",
+  //   },
+  //   {
+  //     id: 10,
+  //     name: "Vinyl Banners",
+  //     category: "Large Format",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$60",
+  //   },
+  //   {
+  //     id: 11,
+  //     name: "Custom Mugs",
+  //     category: "Promotional",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$15",
+  //   },
+  //   {
+  //     id: 12,
+  //     name: "Canvas Prints",
+  //     category: "Large Format",
+  //     image: "/placeholder.svg?height=300&width=400",
+  //     price: "$75",
+  //   },
+  // ]
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -136,12 +139,12 @@ export default function ProductsPage() {
       <section className="w-full py-12 md:py-16 lg:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products.map((product) => (
-              <Link href={`/products/${product.id}`} key={product.id} className="group">
+            {dataProducts.map((product) => (
+              <Link href={`/products/${product.slug}`} key={product.id} className="group">
                 <Card className="overflow-hidden transition-all hover:shadow-lg">
                   <CardContent className="p-0">
                     <Image
-                      src={product.image || "/placeholder.svg"}
+                      src={product.images[0] || "/placeholder.svg"}
                       alt={product.name}
                       width={400}
                       height={300}

@@ -6,104 +6,107 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Printer, Truck, Clock, Check, ChevronLeft, ShoppingCart, Heart } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import { products } from "@/public/data/products";
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default function ProductDetailPage({ params }: { params: { slug: string } }) {
   // This would normally come from a database or API
-  const productId = Number.parseInt(params.id)
+  // const productId = Number.parseInt(params.id)
+  let dataProducts = products;
 
   // Sample product data
-  const products = {
-    1: {
-      name: "Business Cards",
-      category: "Stationery",
-      price: "$25",
-      description:
-        "High-quality business cards printed on premium card stock. Choose from various finishes including matte, glossy, or soft-touch lamination.",
-      features: [
-        "Premium 350gsm card stock",
-        "Full color double-sided printing",
-        "Multiple finish options",
-        "Standard or custom sizes available",
-        "Fast turnaround time",
-      ],
-      specifications: {
-        Material: "350gsm premium card stock",
-        Size: 'Standard 3.5" x 2" or custom',
-        Printing: "Full color CMYK, double-sided",
-        "Finish Options": "Matte, Glossy, Soft-touch lamination",
-        "Minimum Order": "100 cards",
-      },
-      images: [
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-      ],
-      relatedProducts: [2, 3, 5],
-    },
-    2: {
-      name: "Banners & Posters",
-      category: "Large Format",
-      price: "$45",
-      description:
-        "Eye-catching banners and posters for indoor or outdoor use. Available in various sizes and materials to suit your specific needs.",
-      features: [
-        "High-resolution printing",
-        "Weather-resistant options available",
-        "Reinforced edges for durability",
-        "Multiple hanging options",
-        "Custom sizes available",
-      ],
-      specifications: {
-        Material: "440gsm PVC or 210gsm poster paper",
-        Size: "Custom sizes available",
-        Printing: "Full color CMYK",
-        Finish: "Matte or Glossy",
-        Extras: "Grommets, pole pockets available",
-      },
-      images: [
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-      ],
-      relatedProducts: [1, 3, 12],
-    },
-    3: {
-      name: "Brochures",
-      category: "Marketing",
-      price: "$35",
-      description:
-        "Professional brochures to showcase your products or services. Available in bi-fold or tri-fold options with premium paper stocks.",
-      features: [
-        "High-quality paper options",
-        "Full color printing",
-        "Bi-fold or tri-fold options",
-        "Custom sizes available",
-        "Professional design assistance available",
-      ],
-      specifications: {
-        Material: "150gsm - 250gsm art paper",
-        Size: "A4, A5, or custom",
-        Printing: "Full color CMYK, double-sided",
-        "Fold Options": "Bi-fold, Tri-fold, Z-fold",
-        "Minimum Order": "50 brochures",
-      },
-      images: [
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-        "/placeholder.svg?height=600&width=600",
-      ],
-      relatedProducts: [1, 7, 9],
-    },
-  }
+  // const products = {
+  //   1: {
+  //     name: "Business Cards",
+  //     category: "Stationery",
+  //     price: "$25",
+  //     description:
+  //       "High-quality business cards printed on premium card stock. Choose from various finishes including matte, glossy, or soft-touch lamination.",
+  //     features: [
+  //       "Premium 350gsm card stock",
+  //       "Full color double-sided printing",
+  //       "Multiple finish options",
+  //       "Standard or custom sizes available",
+  //       "Fast turnaround time",
+  //     ],
+  //     specifications: {
+  //       Material: "350gsm premium card stock",
+  //       Size: 'Standard 3.5" x 2" or custom',
+  //       Printing: "Full color CMYK, double-sided",
+  //       "Finish Options": "Matte, Glossy, Soft-touch lamination",
+  //       "Minimum Order": "100 cards",
+  //     },
+  //     images: [
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //     ],
+  //     relatedProducts: [2, 3, 5],
+  //   },
+  //   2: {
+  //     name: "Banners & Posters",
+  //     category: "Large Format",
+  //     price: "$45",
+  //     description:
+  //       "Eye-catching banners and posters for indoor or outdoor use. Available in various sizes and materials to suit your specific needs.",
+  //     features: [
+  //       "High-resolution printing",
+  //       "Weather-resistant options available",
+  //       "Reinforced edges for durability",
+  //       "Multiple hanging options",
+  //       "Custom sizes available",
+  //     ],
+  //     specifications: {
+  //       Material: "440gsm PVC or 210gsm poster paper",
+  //       Size: "Custom sizes available",
+  //       Printing: "Full color CMYK",
+  //       Finish: "Matte or Glossy",
+  //       Extras: "Grommets, pole pockets available",
+  //     },
+  //     images: [
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //     ],
+  //     relatedProducts: [1, 3, 12],
+  //   },
+  //   3: {
+  //     name: "Brochures",
+  //     category: "Marketing",
+  //     price: "$35",
+  //     description:
+  //       "Professional brochures to showcase your products or services. Available in bi-fold or tri-fold options with premium paper stocks.",
+  //     features: [
+  //       "High-quality paper options",
+  //       "Full color printing",
+  //       "Bi-fold or tri-fold options",
+  //       "Custom sizes available",
+  //       "Professional design assistance available",
+  //     ],
+  //     specifications: {
+  //       Material: "150gsm - 250gsm art paper",
+  //       Size: "A4, A5, or custom",
+  //       Printing: "Full color CMYK, double-sided",
+  //       "Fold Options": "Bi-fold, Tri-fold, Z-fold",
+  //       "Minimum Order": "50 brochures",
+  //     },
+  //     images: [
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //       "/placeholder.svg?height=600&width=600",
+  //     ],
+  //     relatedProducts: [1, 7, 9],
+  //   },
+  // }
 
   // Default to product 1 if ID doesn't exist in our sample data
-  const product = products[productId as keyof typeof products] || products[1]
+  // const product = dataProducts[params.slug as keyof typeof products] || dataProducts[0];
+  const product = dataProducts.find((item) => item.slug === params.slug);
 
   // Get related products
-  const relatedProductsData = product.relatedProducts.map((id) => products[id as keyof typeof products]).filter(Boolean) // Filter out any undefined products
+  // const relatedProductsData = product.relatedProducts.map((id) => products[id as keyof typeof products]).filter(Boolean) // Filter out any undefined products
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -122,19 +125,19 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
           <div className="space-y-4">
             <div className="overflow-hidden rounded-lg border bg-white">
               <Image
-                src={product.images[0] || "/placeholder.svg"}
-                alt={product.name}
+                src={product?.images[0] || "/placeholder.svg"}
+                alt={`${product?.name} image`}
                 width={600}
                 height={600}
                 className="aspect-square w-full object-cover"
               />
             </div>
             <div className="grid grid-cols-4 gap-2">
-              {product.images.slice(1).map((image, index) => (
+              {product?.images.slice(1).map((image, index) => (
                 <div key={index} className="overflow-hidden rounded-md border bg-white">
                   <Image
                     src={image || "/placeholder.svg"}
-                    alt={`${product.name} view ${index + 2}`}
+                    alt={`${product?.name} view ${index + 2}`}
                     width={150}
                     height={150}
                     className="aspect-square w-full object-cover"
@@ -147,18 +150,18 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
           {/* Product Details */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold">{product.name}</h1>
-              <p className="text-sm text-gray-500">{product.category}</p>
+              <h1 className="text-3xl font-bold">{product?.name}</h1>
+              <p className="text-sm text-gray-500">{product?.category}</p>
             </div>
 
-            <div className="text-2xl font-bold">{product.price}</div>
+            <div className="text-2xl font-bold">{product?.price}</div>
 
-            <p className="text-gray-700">{product.description}</p>
+            <p className="text-gray-700">{product?.description}</p>
 
             <div className="space-y-2">
               <h3 className="font-semibold">Key Features:</h3>
               <ul className="space-y-1">
-                {product.features.map((feature, index) => (
+                {product?.features.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <Check className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
                     <span>{feature}</span>
@@ -204,7 +207,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
           </TabsList>
           <TabsContent value="specifications" className="pt-4">
             <div className="grid gap-4 sm:grid-cols-2">
-              {Object.entries(product.specifications).map(([key, value]) => (
+              {Object.entries(product?.specifications!).map(([key, value]) => (
                 <div key={key} className="flex justify-between border-b pb-2">
                   <span className="font-medium">{key}</span>
                   <span className="text-gray-600">{value}</span>
@@ -257,7 +260,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
         </Tabs>
 
         {/* Related Products */}
-        <section className="mt-16">
+        {/* <section className="mt-16">
           <h2 className="text-2xl font-bold mb-6">Related Products</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedProductsData.map((relatedProduct, i) => {
@@ -291,7 +294,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               )
             })}
           </div>
-        </section>
+        </section> */}
       </div>
 
       <Footer />

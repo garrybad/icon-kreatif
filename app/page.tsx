@@ -5,8 +5,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Printer, Layers, Award, ChevronRight, Phone } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import { products } from "@/public/data/products";
 
 export default function Home() {
+  let dataProducts = products;
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
@@ -113,19 +116,20 @@ export default function Home() {
             </div>
           </div>
           <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
-            {[
+            {/* {[
               { name: "Business Cards", image: "/placeholder.svg?height=300&width=400" },
               { name: "Banners & Posters", image: "/placeholder.svg?height=300&width=400" },
               { name: "Brochures", image: "/placeholder.svg?height=300&width=400" },
               { name: "Custom T-Shirts", image: "/placeholder.svg?height=300&width=400" },
               { name: "Stickers & Labels", image: "/placeholder.svg?height=300&width=400" },
               { name: "Promotional Items", image: "/placeholder.svg?height=300&width=400" },
-            ].map((product, index) => (
+            ].map((product, index) => ( */}
+            {dataProducts.slice(0, 6).map((product, index) => (
               <Link href={`/products/${index + 1}`} key={index} className="group">
                 <Card className="overflow-hidden transition-all hover:shadow-lg">
                   <CardContent className="p-0">
                     <Image
-                      src={product.image || "/placeholder.svg"}
+                      src={product.images[0] || "/placeholder.svg"}
                       alt={product.name}
                       width={400}
                       height={300}
