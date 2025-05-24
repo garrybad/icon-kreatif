@@ -125,7 +125,7 @@ export default function Home() {
               { name: "Promotional Items", image: "/placeholder.svg?height=300&width=400" },
             ].map((product, index) => ( */}
             {dataProducts.slice(0, 6).map((product, index) => (
-              <Link href={`/products/${index + 1}`} key={index} className="group">
+              <Link href={`/products/${product.slug}`} key={product.id} className="group">
                 <Card className="overflow-hidden transition-all hover:shadow-lg">
                   <CardContent className="p-0">
                     <Image
