@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -5,14 +7,124 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Printer, Layers, Award, ChevronRight, Phone } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { products } from "@/public/data/products";
+import { useEffect, useState } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+// import { products } from "@/public/data/products";
+import { Dela_Gothic_One } from 'next/font/google'
+
+const delaGothicOne = Dela_Gothic_One({
+  subsets: ['latin'], // required
+  // display: 'swap', // optional
+  weight: '400',
+  variable: '--font-dela-gothic-one', // optional: for using as CSS variable
+})
+
+interface Product {
+  id: number
+  name: string
+  category: string
+  price: number
+  description: string
+  features: string[]
+  specifications: Record<string, string>
+  images: string[]
+  created_at: string
+  slug: string
+}
+
+interface BusinessDetails {
+  whatsapp_number: string
+  address: string
+  email: string
+}
+
+// Skeleton component for individual product cards
+function ProductCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="p-0">
+        <Skeleton className="aspect-[4/3] w-full" />
+        <div className="p-4">
+          <Skeleton className="h-6 w-3/4 mb-2" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+// Skeleton grid component
+function ProductsGridSkeleton() {
+  return (
+    <>
+      {[...Array(6)].map((_, index) => (
+        <ProductCardSkeleton key={index} />
+      ))}
+    </>
+  )
+}
 
 export default function Home() {
-  let dataProducts = products;
+  // let dataProducts = products;
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [businessDetails, setBusinessDetails] = useState<BusinessDetails>();
+
+  async function getAllProducts() {
+    try {
+      setLoading(true)
+      setError(null)
+      const response = await fetch(`http://localhost:3001/api/products`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('All Products:', data)
+      setProducts(data || [])
+      // Expected response: Array of products
+    } catch (error) {
+      console.error('Error fetching products:', error)
+      setError(error instanceof Error ? error.message : "An error occurred while fetching products")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function getBusinessDetails() {
+    try {
+      const response = await fetch(`http://localhost:3001/api/business-details`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('Business Details:', data)
+      setBusinessDetails(data);
+      // return data
+
+      // Expected response:
+      // {
+      //   whatsapp_number: "08973748344",
+      //   address: "Jl. Jend. Sudirman No.296...",
+      //   email: "garry@gmail.com"
+      // }
+    } catch (error) {
+      console.error('Error fetching business details:', error)
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    getAllProducts()
+    getBusinessDetails();
+  }, [])
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* Hero Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-purple-50 to-blue-50">
@@ -32,13 +144,15 @@ export default function Home() {
                   Get Started
                 </Button> */}
                 <Button asChild variant="outline" size="lg" className="gap-1">
-                  <Link href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
+                  <Link href={`https://wa.me/${businessDetails?.whatsapp_number}`} target="_blank" rel="noopener noreferrer">
                     <Phone className="h-4 w-4" />
                     Contact Us
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline">
-                  View Products
+                  <Link href="/products">
+                    View Products
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -116,32 +230,43 @@ export default function Home() {
             </div>
           </div>
           <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
-            {/* {[
-              { name: "Business Cards", image: "/placeholder.svg?height=300&width=400" },
-              { name: "Banners & Posters", image: "/placeholder.svg?height=300&width=400" },
-              { name: "Brochures", image: "/placeholder.svg?height=300&width=400" },
-              { name: "Custom T-Shirts", image: "/placeholder.svg?height=300&width=400" },
-              { name: "Stickers & Labels", image: "/placeholder.svg?height=300&width=400" },
-              { name: "Promotional Items", image: "/placeholder.svg?height=300&width=400" },
-            ].map((product, index) => ( */}
-            {dataProducts.slice(0, 6).map((product, index) => (
-              <Link href={`/products/${product.slug}`} key={product.id} className="group">
-                <Card className="overflow-hidden transition-all hover:shadow-lg">
-                  <CardContent className="p-0">
-                    <Image
-                      src={product.images[0] || "/placeholder.svg"}
-                      alt={product.name}
-                      width={400}
-                      height={300}
-                      className="aspect-[4/3] w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-lg font-bold">{product.name}</h3>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+            {loading ? (
+              <ProductsGridSkeleton />
+            ) : error ? (
+              <div className="text-center py-12">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Oops! Something went wrong</h2>
+                <p className="text-gray-600 mb-6">{error}</p>
+                <Button onClick={getAllProducts} variant="outline">
+                  Try Again
+                </Button>
+              </div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-12">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">No Products Found</h2>
+                <p className="text-gray-600">We couldn't find any products at the moment. Please check back later.</p>
+              </div>
+            ) : (
+              <>
+                {products.slice(0, 6).map((product, index) => (
+                  <Link href={`/products/${product.slug}`} key={product.id} className="group">
+                    <Card className="overflow-hidden transition-all hover:shadow-lg">
+                      <CardContent className="p-0">
+                        <Image
+                          src={product.images[0] || "/placeholder.svg"}
+                          alt={product.name}
+                          width={400}
+                          height={300}
+                          className="aspect-[4/3] w-full object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="p-4">
+                          <h3 className="text-lg font-bold">{product.name}</h3>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </>
+            )}
           </div>
           <div className="flex justify-center">
             <Button asChild className="gap-1">
@@ -217,7 +342,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About Icon Kreatif</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About <span className={delaGothicOne.className}>ICON KREATIF</span></h2>
                 <p className="text-gray-500 md:text-xl">
                   Icon Kreatif is a modern digital printing company dedicated to bringing your creative visions to life.
                 </p>
@@ -237,9 +362,11 @@ export default function Home() {
                 </p>
               </div>
               <div>
-                <Button variant="outline" className="gap-1">
-                  <Phone className="h-4 w-4" />
-                  Contact Us
+                <Button asChild variant="outline" size="lg" className="gap-1">
+                  <Link href={`https://wa.me/${businessDetails?.whatsapp_number}`} target="_blank" rel="noopener noreferrer">
+                    <Phone className="h-4 w-4" />
+                    Contact Us
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -247,7 +374,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

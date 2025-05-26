@@ -1,7 +1,55 @@
+'use client'
+
 import Link from "next/link"
 import { Printer, Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Dela_Gothic_One } from 'next/font/google'
+
+const delaGothicOne = Dela_Gothic_One({
+  subsets: ['latin'], // required
+  // display: 'swap', // optional
+  weight: '400',
+  variable: '--font-dela-gothic-one', // optional: for using as CSS variable
+})
+
+interface BusinessDetails {
+  whatsapp_number: string
+  address: string
+  email: string
+}
 
 export default function Footer() {
+  const [businessDetails, setBusinessDetails] = useState<BusinessDetails>();
+
+  async function getBusinessDetails() {
+    try {
+      const response = await fetch(`http://localhost:3001/api/business-details`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('Business Details:', data)
+      setBusinessDetails(data);
+      // return data
+
+      // Expected response:
+      // {
+      //   whatsapp_number: "08973748344",
+      //   address: "Jl. Jend. Sudirman No.296...",
+      //   email: "garry@gmail.com"
+      // }
+    } catch (error) {
+      console.error('Error fetching business details:', error)
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    getBusinessDetails()
+  }, [])
+
   return (
     <footer className="w-full bg-gray-900 text-gray-200">
       <div className="container px-4 py-12 md:px-6 md:py-16">
@@ -9,7 +57,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-3">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Printer className="h-6 w-6 text-purple-400" />
-              <span className="text-xl font-bold text-white">Icon Kreatif</span>
+              <span className={`text-xl font-bold text-white ${delaGothicOne.className}`}>ICON KREATIF</span>
             </Link>
             <p className="mb-4 max-w-xs text-gray-400">
               Modern digital printing solutions for businesses and individuals. Transform your ideas into reality with
@@ -64,18 +112,18 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 text-purple-400 shrink-0 mt-0.5" />
-                <span className="text-gray-400">123 Print Street, Creative City, 12345</span>
+                <span className="text-gray-400">{businessDetails?.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-5 w-5 text-purple-400 shrink-0" />
                 <Link href="tel:+1234567890" className="text-gray-400 hover:text-white">
-                  (123) 456-7890
+                  {businessDetails?.whatsapp_number}
                 </Link>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-purple-400 shrink-0" />
                 <Link href="mailto:info@iconkreatif.com" className="text-gray-400 hover:text-white">
-                  info@iconkreatif.com
+                  {businessDetails?.email}
                 </Link>
               </li>
             </ul>

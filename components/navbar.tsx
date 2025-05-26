@@ -1,20 +1,64 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, Printer, Phone } from "lucide-react"
+import { Dela_Gothic_One } from 'next/font/google'
+
+const delaGothicOne = Dela_Gothic_One({
+  subsets: ['latin'], // required
+  // display: 'swap', // optional
+  weight: '400',
+  variable: '--font-dela-gothic-one', // optional: for using as CSS variable
+})
+
+interface BusinessDetails {
+  whatsapp_number: string
+  address: string
+  email: string
+}
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [businessDetails, setBusinessDetails] = useState<BusinessDetails>();
+  
+  async function getBusinessDetails() {
+    try {
+      const response = await fetch(`http://localhost:3001/api/business-details`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('Business Details:', data)
+      setBusinessDetails(data);
+      // return data
+
+      // Expected response:
+      // {
+      //   whatsapp_number: "08973748344",
+      //   address: "Jl. Jend. Sudirman No.296...",
+      //   email: "garry@gmail.com"
+      // }
+    } catch (error) {
+      console.error('Error fetching business details:', error)
+      throw error
+    }
+  }
+  
+  useEffect(() => {
+    getBusinessDetails()
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white">
       <div className="container flex h-16 items-center px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 mr-6">
           <Printer className="h-6 w-6 text-purple-600" />
-          <span className="text-xl font-bold">Icon Kreatif</span>
+          <span className={`text-xl font-bold ${delaGothicOne.className}`}>ICON KREATIF</span>
         </Link>
 
         <nav className="hidden md:flex gap-6 flex-1 justify-center">
@@ -34,7 +78,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-4 ml-auto">
           <Button asChild variant="outline" size="sm" className="gap-1">
-            <Link href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
+            <Link href={`https://wa.me/${businessDetails?.whatsapp_number}`} target="_blank" rel="noopener noreferrer">
               <Phone className="h-4 w-4" />
               Contact Us
             </Link>
@@ -52,7 +96,7 @@ export default function Navbar() {
             <div className="flex flex-col gap-6 pt-6">
               <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                 <Printer className="h-6 w-6 text-purple-600" />
-                <span className="text-xl font-bold">Icon Kreatif</span>
+                <span className={`text-lg font-bold ${delaGothicOne.className}`}>ICON KREATIF CMS</span>
               </Link>
               <nav className="flex flex-col gap-4">
                 <Link
@@ -70,25 +114,18 @@ export default function Navbar() {
                   Products
                 </Link>
                 <Link
-                  href="#about"
-                  className="text-lg font-medium hover:text-purple-600"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link
-                  href="#testimonials"
+                  href="/#testimonials"
                   className="text-lg font-medium hover:text-purple-600"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Testimonials
                 </Link>
                 <Link
-                  href="#contact"
+                  href="/#about"
                   className="text-lg font-medium hover:text-purple-600"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Contact
+                  About
                 </Link>
               </nav>
               <Button asChild className="gap-1 mt-4">
