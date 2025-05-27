@@ -11,7 +11,10 @@ export const metadata = {
   title: "Icon Kreatif - Modern Digital Printing Solutions",
   description:
     "Transform your ideas into reality with our high-quality digital printing services on various media including paper, cloth, and plastic.",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: '/icon.png', // /public path
+  },
 }
 
 export default function RootLayout({

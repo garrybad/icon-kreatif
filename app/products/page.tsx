@@ -72,6 +72,7 @@ function FilterSkeleton() {
 }
 
 export default function ProductsPage() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL!
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -88,8 +89,8 @@ export default function ProductsPage() {
 
     try {
       const [productsResponse, categoriesResponse] = await Promise.all([
-        fetch(`http://localhost:3001/api/products`),
-        fetch(`http://localhost:3001/api/categories`),
+        fetch(`${apiUrl}/api/products`),
+        fetch(`${apiUrl}/api/categories`),
       ])
 
       // Handle Products

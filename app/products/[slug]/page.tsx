@@ -8,10 +8,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Printer, Truck, Clock, Check, ChevronLeft, ShoppingCart, Heart, Phone } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { products } from "@/public/data/products";
+// import { products } from "@/public/data/products";
 import { useEffect, useState, use } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { formatPrice } from "@/lib/utils"
+import { getRandomItems } from "@/lib/utils"
 
 interface Product {
   id: number
@@ -109,21 +110,79 @@ function ProductTabsSkeleton() {
   )
 }
 
+function MoreProductCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="p-0">
+        <Skeleton className="aspect-[4/3] w-full" />
+        <div className="p-4">
+          <Skeleton className="h-6 w-3/4 mb-2" />
+          <div className="flex items-center justify-between mt-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-4 w-1/4" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function MoreProductSkeleton() {
+  return (
+    <section className="mt-16">
+      <Skeleton className="h-8 w-48 mb-6" />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {[...Array(3)].map((_, index) => (
+          <MoreProductCardSkeleton key={index} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export default function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL!
   // This would normally come from a database or API
   // const productId = Number.parseInt(params.id)
   // let dataProducts = products;
   const { slug } = use(params);
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
+  const [loading2, setLoading2] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [products, setProducts] = useState<Product[]>([])
+
+  const handleImageSelect = (index: number) => {
+    setSelectedImageIndex(index)
+  }
+
+  async function getAllProducts() {
+    try {
+      setLoading2(true)
+      setError(null)
+      const response = await fetch(`${apiUrl}/api/products`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log("All Products:", data)
+      setProducts(data || [])
+    } catch (error) {
+      console.error("Error fetching products:", error)
+      setError(error instanceof Error ? error.message : "An error occurred while fetching products")
+    } finally {
+      setLoading2(false)
+    }
+  }
 
   async function getProductBySlug(slug: string) {
     try {
       setLoading(true)
       setError(null)
-      const response = await fetch(`http://localhost:3001/api/products/${slug}`)
+      const response = await fetch(`${apiUrl}/api/products/${slug}`)
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -144,9 +203,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
     }
   }
 
-  const handleImageSelect = (index: number) => {
-    setSelectedImageIndex(index)
-  }
+  useEffect(() => {
+    getAllProducts();
+  }, [])
 
   useEffect(() => {
     getProductBySlug(slug)
@@ -200,6 +259,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
               <ProductDetailsSkeleton />
             </div>
             <ProductTabsSkeleton />
+            <MoreProductSkeleton />
           </>
         ) : product ? (
           <>
@@ -273,15 +333,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                 <div className="grid grid-cols-3 gap-4 pt-4">
                   <div className="flex flex-col items-center justify-center rounded-lg border bg-white p-4 text-center">
                     <Printer className="h-6 w-6 text-purple-600 mb-2" />
-                    <span className="text-sm font-medium">High Quality</span>
+                    <span className="text-sm font-medium">Berkualitas Tinggi</span>
                   </div>
                   <div className="flex flex-col items-center justify-center rounded-lg border bg-white p-4 text-center">
                     <Truck className="h-6 w-6 text-purple-600 mb-2" />
-                    <span className="text-sm font-medium">Fast Delivery</span>
+                    <span className="text-sm font-medium">Pengiriman Cepat</span>
                   </div>
                   <div className="flex flex-col items-center justify-center rounded-lg border bg-white p-4 text-center">
                     <Clock className="h-6 w-6 text-purple-600 mb-2" />
-                    <span className="text-sm font-medium">Quick Turnaround</span>
+                    <span className="text-sm font-medium">Produksi Cepat</span>
                   </div>
                 </div>
               </div>
@@ -343,43 +403,46 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                 </div>
               </TabsContent>
             </Tabs>
+          </>
+        ) : null}
 
+        {loading2 ? (
+          <>
+            <MoreProductSkeleton />
+          </>
+        ) : products ? (
+          <>
             {/* Related Products */}
-            {/* <section className="mt-16">
-            <h2 className="text-2xl font-bold mb-6">Related Products</h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedProductsData.map((relatedProduct, i) => {
-                // Find the original index to get the correct product ID
-                const originalIndex = product.relatedProducts.findIndex(
-                  (id) => products[id as keyof typeof products] === relatedProduct,
-                )
-                const productId = product.relatedProducts[originalIndex]
+            <section className="mt-16">
+              <h2 className="text-2xl font-bold mb-6">Produk Lainnya</h2>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {getRandomItems(products, 3).map((x, i) => {
 
-                return (
-                  <Link href={`/products/${productId}`} key={i} className="group">
-                    <Card className="overflow-hidden transition-all hover:shadow-lg">
-                      <CardContent className="p-0">
-                        <Image
-                          src={relatedProduct.images[0] || "/placeholder.svg"}
-                          alt={relatedProduct.name}
-                          width={400}
-                          height={300}
-                          className="aspect-[4/3] w-full object-cover transition-transform group-hover:scale-105"
-                        />
-                        <div className="p-4">
-                          <h3 className="text-lg font-bold">{relatedProduct.name}</h3>
-                          <div className="flex items-center justify-between mt-2">
-                            <span className="text-sm text-gray-500">{relatedProduct.category}</span>
-                            <span className="font-medium">{relatedProduct.price}</span>
+                  return (
+                    <Link href={`/products/${x.slug}`} key={x.id} className="group">
+                      <Card className="overflow-hidden transition-all hover:shadow-lg">
+                        <CardContent className="p-0">
+                          <Image
+                            src={x.images[0] || "/placeholder.svg"}
+                            alt={x.name}
+                            width={400}
+                            height={300}
+                            className="aspect-[4/3] w-full object-cover transition-transform group-hover:scale-105"
+                          />
+                          <div className="p-4">
+                            <h3 className="text-lg font-bold">{x.name}</h3>
+                            <div className="flex items-center justify-between mt-2">
+                              <span className="text-sm text-gray-500">{x.category}</span>
+                              <span className="font-medium">{formatPrice(x.price)}</span>
+                            </div>
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                )
-              })}
-            </div>
-          </section> */}
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  )
+                })}
+              </div>
+            </section>
           </>
         ) : null}
       </div>

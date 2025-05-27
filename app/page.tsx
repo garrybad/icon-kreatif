@@ -65,6 +65,7 @@ function ProductsGridSkeleton() {
 
 export default function Home() {
   // let dataProducts = products;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL!
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -74,7 +75,7 @@ export default function Home() {
     try {
       setLoading(true)
       setError(null)
-      const response = await fetch(`http://localhost:3001/api/products`)
+      const response = await fetch(`${apiUrl}/api/products`)
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -158,11 +159,11 @@ export default function Home() {
             </div>
             <div className="flex justify-center">
               <Image
-                src="/placeholder.svg?height=550&width=550"
+                src="/ik-img.webp"
                 width={550}
                 height={550}
                 alt="Digital Printing Machine"
-                className="rounded-lg object-cover"
+                className="rounded-lg object-cover w-[550px] h-[550px]"
               />
             </div>
           </div>
@@ -208,7 +209,7 @@ export default function Home() {
                 <Award className="h-8 w-8 text-purple-600" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-bold">Perputaran Cepat</h3>
+                <h3 className="text-xl font-bold">Produksi Cepat</h3>
                 <p className="text-gray-500">
                   Waktu produksi yang cepat tanpa mengorbankan kualitas atau perhatian terhadap detail.
                 </p>
@@ -293,27 +294,27 @@ export default function Home() {
           <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                name: "Sarah Johnson",
-                company: "Fashion Boutique",
+                name: "Daniel Romero",
+                company: "Creative Studio",
                 quote:
-                  "The quality of our promotional materials has significantly improved since we started working with Icon Kreatif. Their attention to detail is impressive!",
+                  "Icon Kreatif selalu memberikan hasil cetak dengan warna yang tajam dan kualitas tinggi. Kami sangat puas dengan hasil cetakan portofolio klien kami.",
               },
               {
-                name: "Michael Chen",
-                company: "Tech Startup",
+                name: "Lina Hartanto",
+                company: "Kopi Kita",
                 quote:
-                  "Fast turnaround times and excellent customer service. Our business cards and brochures always look professional and polished.",
+                  "Dari menu kafe hingga kemasan kopi, semuanya dicetak dengan detail yang luar biasa. Icon Kreatif benar-benar memahami kebutuhan branding kami.",
               },
               {
-                name: "Aisha Patel",
-                company: "Event Planner",
+                name: "Andi Pratama",
+                company: "Event Organizer Nusantara",
                 quote:
-                  "Icon Kreatif has been our go-to printing partner for all our event materials. Their banners and posters always exceed our expectations.",
+                  "Setiap kali kami butuh banner dan undangan dalam waktu cepat, Icon Kreatif selalu bisa diandalkan. Hasilnya selalu memuaskan!",
               },
             ].map((testimonial, index) => (
               <Card key={index} className="text-left">
                 <CardContent className="p-6">
-                  <div className="space-y-4">
+                  <div className="space-y-4 min-h-[200px] flex flex-col justify-between">
                     <p className="text-gray-500 italic">"{testimonial.quote}"</p>
                     <div>
                       <p className="font-semibold">{testimonial.name}</p>
@@ -333,11 +334,11 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="flex justify-center">
               <Image
-                src="/placeholder.svg?height=500&width=500"
+                src="/ik-img.webp"
                 width={500}
                 height={500}
                 alt="Icon Kreatif Team"
-                className="rounded-lg object-cover"
+                className="rounded-lg object-cover w-[550px] h-[550px]"
               />
             </div>
             <div className="flex flex-col justify-center space-y-4">
