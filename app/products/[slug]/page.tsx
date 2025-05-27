@@ -11,6 +11,7 @@ import Footer from "@/components/footer"
 import { products } from "@/public/data/products";
 import { useEffect, useState, use } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { formatPrice } from "@/lib/utils"
 
 interface Product {
   id: number
@@ -246,7 +247,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                   <p className="text-sm text-gray-500">{product?.category}</p>
                 </div>
 
-                <div className="text-2xl font-bold">{product?.price}</div>
+                <div className="text-2xl font-bold">{formatPrice(product?.price)}</div>
 
                 <p className="text-gray-700">{product?.description}</p>
 
@@ -289,8 +290,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
             {/* Product Tabs */}
             <Tabs defaultValue="specifications" className="mt-12">
               <TabsList className="w-full justify-start border-b pb-px">
-                <TabsTrigger value="specifications">Specifications</TabsTrigger>
-                <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
+                <TabsTrigger value="specifications">Spesifikasi</TabsTrigger>
+                <TabsTrigger value="shipping">Pengiriman & Pengembalian</TabsTrigger>
                 <TabsTrigger value="faq">FAQ</TabsTrigger>
               </TabsList>
               <TabsContent value="specifications" className="pt-4">
@@ -305,42 +306,38 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
               </TabsContent>
               <TabsContent value="shipping" className="pt-4">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Shipping Information</h3>
-                  <p>We offer various shipping options to meet your needs:</p>
+                  <h3 className="text-lg font-semibold">Informasi Pengiriman</h3>
+                  <p>Kami menawarkan berbagai pilihan pengiriman untuk memenuhi kebutuhan Anda:</p>
                   <ul className="list-disc pl-5 space-y-1">
-                    <li>Standard Shipping (3-5 business days)</li>
-                    <li>Express Shipping (1-2 business days)</li>
-                    <li>Local Pickup (available at our location)</li>
+                    <li>Pengiriman Standar (3-5 hari kerja)</li>
+                    <li>Pengiriman Ekspres (1-2 hari kerja)</li>
+                    <li>Pengambilan Langsung (tersedia di lokasi kami)</li>
                   </ul>
 
-                  <h3 className="text-lg font-semibold mt-6">Return Policy</h3>
+                  <h3 className="text-lg font-semibold mt-6">Kebijakan Pengembalian</h3>
                   <p>
-                    Due to the custom nature of our printing products, we have a limited return policy. If your order
-                    arrives damaged or with printing errors, please contact us within 7 days of receiving your order.
+                    Karena produk cetak kami bersifat khusus, kami memiliki kebijakan pengembalian yang terbatas. Jika pesanan Anda rusak atau terdapat kesalahan cetak, harap hubungi kami dalam waktu 7 hari setelah menerima pesanan Anda.
                   </p>
                 </div>
               </TabsContent>
               <TabsContent value="faq" className="pt-4">
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-lg font-semibold">What file formats do you accept?</h3>
+                    <h3 className="text-lg font-semibold">Format file apa yang Anda terima?</h3>
                     <p className="text-gray-600">
-                      We accept PDF, AI, PSD, JPG, and PNG files. For best results, we recommend using PDF files with at
-                      least 300 DPI resolution.
+                      Kami menerima berkas PDF, AI, PSD, JPG, dan PNG. Untuk hasil terbaik, kami sarankan untuk menggunakan berkas PDF dengan resolusi minimal 300 DPI.
                     </p>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">How long does production take?</h3>
+                    <h3 className="text-lg font-semibold">Berapa lama waktu produksi?</h3>
                     <p className="text-gray-600">
-                      Production time varies by product. Standard business cards typically take 2-3 business days, while
-                      larger format items may take 3-5 business days.
+                      Waktu produksi bervariasi tergantung pada produknya. Kartu nama standar biasanya memerlukan waktu 2-3 hari kerja, sedangkan barang dengan format yang lebih besar mungkin memerlukan waktu 3-5 hari kerja.
                     </p>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">Do you offer design services?</h3>
+                    <h3 className="text-lg font-semibold">Apakah Anda menawarkan layanan desain?</h3>
                     <p className="text-gray-600">
-                      Yes, we offer professional design services for an additional fee. Our designers can help create or
-                      refine your artwork to ensure the best printing results.
+                      Ya, kami menawarkan layanan desain profesional dengan biaya tambahan. Desainer kami dapat membantu membuat atau menyempurnakan karya seni Anda untuk memastikan hasil cetak terbaik.
                     </p>
                   </div>
                 </div>

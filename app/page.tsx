@@ -136,22 +136,22 @@ export default function Home() {
                   Modern Digital Printing Solutions
                 </h1>
                 <p className="max-w-[600px] text-gray-500 md:text-xl">
-                  Transform your ideas into reality with our high-quality digital printing services on various media.
+                  Ubahlah ide Anda menjadi kenyataan dengan layanan pencetakan digital berkualitas tinggi pada berbagai media.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 {/* <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
                   Get Started
                 </Button> */}
+                <Button size="lg" variant="outline">
+                  <Link href="/products">
+                    View Products
+                  </Link>
+                </Button>
                 <Button asChild variant="outline" size="lg" className="gap-1">
                   <Link href={`https://wa.me/${businessDetails?.whatsapp_number}`} target="_blank" rel="noopener noreferrer">
                     <Phone className="h-4 w-4" />
                     Contact Us
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline">
-                  <Link href="/products">
-                    View Products
                   </Link>
                 </Button>
               </div>
@@ -174,9 +174,9 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Our Features</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Fitur Percetakan Kami</h2>
               <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Discover why Icon Kreatif is the preferred choice for digital printing
+                Temukan mengapa Icon Kreatif adalah pilihan yang disukai untuk pencetakan digital
               </p>
             </div>
           </div>
@@ -186,9 +186,9 @@ export default function Home() {
                 <Printer className="h-8 w-8 text-purple-600" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-bold">High-Quality Printing</h3>
+                <h3 className="text-xl font-bold">Pencetakan Berkualitas Tinggi</h3>
                 <p className="text-gray-500">
-                  State-of-the-art digital printing technology for crisp, vibrant results on any media.
+                  Teknologi pencetakan digital canggih untuk hasil tajam dan cerah pada media apa pun.
                 </p>
               </div>
             </div>
@@ -197,9 +197,9 @@ export default function Home() {
                 <Layers className="h-8 w-8 text-purple-600" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-bold">Versatile Media Options</h3>
+                <h3 className="text-xl font-bold">Opsi Media Serbaguna</h3>
                 <p className="text-gray-500">
-                  Print on various materials including paper, fabric, vinyl, plastic, and more.
+                  Cetak pada berbagai bahan termasuk kertas, kain, vinil, plastik, dan banyak lagi.
                 </p>
               </div>
             </div>
@@ -208,9 +208,9 @@ export default function Home() {
                 <Award className="h-8 w-8 text-purple-600" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-bold">Fast Turnaround</h3>
+                <h3 className="text-xl font-bold">Perputaran Cepat</h3>
                 <p className="text-gray-500">
-                  Quick production times without compromising on quality or attention to detail.
+                  Waktu produksi yang cepat tanpa mengorbankan kualitas atau perhatian terhadap detail.
                 </p>
               </div>
             </div>
@@ -223,9 +223,9 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Our Products</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Produk Kami</h2>
               <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Explore our range of high-quality printing products
+                Jelajahi berbagai produk pencetakan berkualitas tinggi kami
               </p>
             </div>
           </div>
@@ -284,9 +284,9 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">What Our Clients Say</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Apa Kata Klien Kami</h2>
               <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Hear from our satisfied customers about their experience with Icon Kreatif
+                Dengarkan pelanggan kami yang puas tentang pengalaman mereka dengan Icon Kreatif
               </p>
             </div>
           </div>
@@ -342,24 +342,22 @@ export default function Home() {
             </div>
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About <span className={delaGothicOne.className}>ICON KREATIF</span></h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Tentang <span className={delaGothicOne.className}>ICON KREATIF</span></h2>
                 <p className="text-gray-500 md:text-xl">
-                  Icon Kreatif is a modern digital printing company dedicated to bringing your creative visions to life.
+                  Icon Kreatif adalah perusahaan digital printing modern yang mengutamakan kualitas, kecepatan, dan ketepatan dalam setiap proses cetak.
                 </p>
               </div>
               <div className="space-y-4 text-gray-500">
                 <p>
-                  Founded in 2015, we've been at the forefront of digital printing technology, offering high-quality
-                  printing services on various media including paper, fabric, vinyl, and plastic.
+                  Dengan teknologi terkini dan sistem berbasis digital, kami mampu mencetak berbagai desain secara langsung dari file digital ke berbagai media seperti kertas, kain, plastik, dan lainnya.
                 </p>
                 <p>
-                  Our team of experienced professionals is committed to delivering exceptional results with quick
-                  turnaround times and personalized customer service.
+                  Kami melayani kebutuhan personal maupun bisnis — mulai dari promosi, branding, hingga kebutuhan percetakan khusus dengan hasil cetak yang tajam, tahan lama, dan memikat.
                 </p>
-                <p>
+                {/* <p>
                   Whether you're a small business looking for marketing materials or an individual with a creative
                   project, Icon Kreatif is your trusted partner for all your printing needs.
-                </p>
+                </p> */}
               </div>
               <div>
                 <Button asChild variant="outline" size="lg" className="gap-1">

@@ -60,8 +60,7 @@ export default function Footer() {
               <span className={`text-xl font-bold text-white ${delaGothicOne.className}`}>ICON KREATIF</span>
             </Link>
             <p className="mb-4 max-w-xs text-gray-400">
-              Modern digital printing solutions for businesses and individuals. Transform your ideas into reality with
-              our high-quality printing services.
+              Solusi percetakan digital modern untuk bisnis dan perorangan. Wujudkan ide Anda menjadi kenyataan dengan layanan percetakan berkualitas tinggi kami.
             </p>
             <div className="flex gap-4">
               <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
