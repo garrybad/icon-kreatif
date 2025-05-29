@@ -19,11 +19,12 @@ interface BusinessDetails {
 }
 
 export default function Footer() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL!
   const [businessDetails, setBusinessDetails] = useState<BusinessDetails>();
 
   async function getBusinessDetails() {
     try {
-      const response = await fetch(`http://localhost:3001/api/business-details`)
+      const response = await fetch(`${apiUrl}/api/business-details`)
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
