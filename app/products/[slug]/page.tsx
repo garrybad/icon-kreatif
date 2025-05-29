@@ -357,7 +357,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                 </div>
 
                 <div className="flex flex-col gap-4 sm:flex-row">
-                  <Button size="lg" variant="outline" className="gap-2">
+                  <Button asChild size="lg" variant="outline" className="gap-2">
                     <Link href={`https://wa.me/${businessDetails?.whatsapp_number}`} target="_blank" rel="noopener noreferrer">
                       <Phone className="h-5 w-5" />
                       Contact Us
