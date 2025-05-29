@@ -27,6 +27,12 @@ interface Product {
   slug: string
 }
 
+interface BusinessDetails {
+  whatsapp_number: string
+  address: string
+  email: string
+}
+
 // Skeleton Components
 function ProductImagesSkeleton() {
   return (
@@ -152,6 +158,32 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
   const [error, setError] = useState<string | null>(null)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [products, setProducts] = useState<Product[]>([])
+  const [businessDetails, setBusinessDetails] = useState<BusinessDetails>();
+
+  async function getBusinessDetails() {
+    try {
+      const response = await fetch(`${apiUrl}/api/business-details`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('Business Details:', data)
+      setBusinessDetails(data);
+      // return data
+
+      // Expected response:
+      // {
+      //   whatsapp_number: "08973748344",
+      //   address: "Jl. Jend. Sudirman No.296...",
+      //   email: "garry@gmail.com"
+      // }
+    } catch (error) {
+      console.error('Error fetching business details:', error)
+      throw error
+    }
+  }
 
   const handleImageSelect = (index: number) => {
     setSelectedImageIndex(index)
@@ -205,6 +237,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
 
   useEffect(() => {
     getAllProducts();
+    getBusinessDetails();
   }, [])
 
   useEffect(() => {
@@ -325,8 +358,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
 
                 <div className="flex flex-col gap-4 sm:flex-row">
                   <Button size="lg" variant="outline" className="gap-2">
-                    <Phone className="h-5 w-5" />
-                    Contact Us
+                    <Link href={`https://wa.me/${businessDetails?.whatsapp_number}`} target="_blank" rel="noopener noreferrer">
+                      <Phone className="h-5 w-5" />
+                      Contact Us
+                    </Link>
                   </Button>
                 </div>
 
